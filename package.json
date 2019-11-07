@@ -1,0 +1,38 @@
+{
+  "name": "stylex",
+  "version": "0.1.0",
+  "description": "Zero-runtime CSS-in-JS",
+  "keywords": [
+    "css-in-js",
+    "stylesheet",
+    "css",
+    "atomic",
+    "zero-runtime"
+  ],
+  "license": "MIT",
+  "author": "Craig Cavalier",
+  "main": "dist/index.js",
+  "module": "dist/stylex.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.22",
+    "tsdx": "^0.11.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.2"
+  }
+}
