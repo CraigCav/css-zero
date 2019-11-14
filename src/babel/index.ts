@@ -4,7 +4,6 @@ import isStyles from './utils/isStyles';
 
 export default function cssZeroBabelPlugin(babel) {
   const { types } = babel;
-
   return {
     name: 'css-zero',
     inherits: jsx,
@@ -50,8 +49,10 @@ export default function cssZeroBabelPlugin(babel) {
 
         const args = path.get('arguments');
 
-        let merged = {};
         let usage = {};
+
+        let styles: any = {};
+        let conditionalStyles: any = {};
 
         args.forEach((arg, i) => {
           const result = arg.evaluate();
@@ -59,11 +60,10 @@ export default function cssZeroBabelPlugin(babel) {
 
           if (confident && value) {
             Object.assign(usage, value);
-            Object.entries(value).forEach(([key, value]) => {
-              merged[key] = types.templateElement(
-                { raw: value, cooked: value },
-                false
-              );
+            Object.assign(styles, value);
+            Object.entries(value).forEach(([key]) => {
+              const { [key]: _ignore, ...updated } = conditionalStyles;
+              conditionalStyles = updated;
             });
             return;
           }
@@ -87,18 +87,18 @@ export default function cssZeroBabelPlugin(babel) {
 
               Object.entries(valueRight.value).forEach(([key, value]) => {
                 const current =
-                  merged[key] && types.templateLiteral([merged[key]], []);
-                merged[key] = types.conditionalExpression(
+                  key in styles
+                    ? types.stringLiteral(styles[key])
+                    : key in conditionalStyles
+                    ? conditionalStyles[key]
+                    : types.nullLiteral();
+
+                const { [key]: _ignore, ...updated } = styles;
+                styles = updated;
+
+                conditionalStyles[key] = types.conditionalExpression(
                   left.node,
-                  types.templateLiteral(
-                    [
-                      types.templateElement(
-                        { raw: value, cooked: value },
-                        false
-                      ),
-                    ],
-                    []
-                  ),
+                  types.stringLiteral(value),
                   current || types.nullLiteral()
                 );
               });
@@ -117,34 +117,32 @@ export default function cssZeroBabelPlugin(babel) {
 
         state.usage.push(...Object.values(usage));
 
-        // replace `styles(one, two)` with the corresponding className expressions
-        const nodes: any[] = Object.values(merged);
+        const expressions = Object.values(conditionalStyles);
+        const literals = Object.values(styles).join(' ');
 
-        const templateLiteralArgs = nodes.reduce(
-          ([quasis, expressions], node) => {
-            if (node.type === 'ConditionalExpression') {
-              expressions.push(node);
-              // number of quasis must always be one more than expressions
-              quasis.push(types.templateElement({ raw: '', cooked: '' }, true));
-            } else {
-              // append the current classname into the prior quasi
-              const last = quasis.pop();
-              const value =
-                !expressions.length && last.value.raw === ''
-                  ? node.value.raw
-                  : [last.value.raw, node.value.raw].join(' ');
+        if (!expressions.length && !literals) {
+          path.replaceWith(types.stringLiteral(''));
+          return;
+        }
 
-              quasis.push(
-                types.templateElement({ raw: value, cooked: value }, true)
-              );
-            }
+        if (!expressions.length) {
+          path.replaceWith(types.stringLiteral(literals));
+          return;
+        }
 
-            return [quasis, expressions];
-          },
-          [[types.templateElement({ raw: '', cooked: '' }, false)], []]
+        const concat = (left, right) =>
+          types.binaryExpression('+', left, right);
+
+        path.replaceWith(
+          expressions.reduce(
+            (current: any, node) => {
+              return current.type === 'NullLiteral'
+                ? node
+                : concat(concat(node, types.stringLiteral(' ')), current);
+            },
+            !literals ? types.nullLiteral() : types.stringLiteral(literals)
+          )
         );
-
-        path.replaceWith(types.templateLiteral(...templateLiteralArgs));
       },
     },
   };

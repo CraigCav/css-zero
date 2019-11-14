@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`combining.jsx 1`] = `"export const Component = () => <div className={\`x1dqz7z3 x1e4w2a9\`} />;"`;
+exports[`combining.jsx 1`] = `"export const Component = () => <div className={\\"x1dqz7z3 x1e4w2a9\\"} />;"`;
 
 exports[`combining.jsx 2`] = `
 .x1dqz7z3 {color:red}
@@ -8,10 +8,10 @@ exports[`combining.jsx 2`] = `
 `;
 
 exports[`conditional.jsx 1`] = `
-"export const LogicalAndExpression = props => <div className={\`\${props.isBlue ? \`x1vong5g\` : \`x1dqz7z3\`} x1e4w2a9\`} />;
-export const LogicalExpressionDeterministic = () => <div className={\`x1vong5g\`} />;
-export const IgnoreFalsey = () => <div className={\`\`} />;
-export const SimpleTernaryExpression = () => <div className={\`x1dqz7z3 x1e4w2a9\`} />;"
+"export const LogicalAndExpression = props => <div className={(props.isBlue ? \\"x1vong5g\\" : \\"x1dqz7z3\\") + \\" \\" + \\"x1e4w2a9\\"} />;
+export const LogicalExpressionDeterministic = () => <div className={\\"x1vong5g\\"} />;
+export const IgnoreFalsey = () => <div className={\\"\\"} />;
+export const SimpleTernaryExpression = () => <div className={\\"x1dqz7z3 x1e4w2a9\\"} />;"
 `;
 
 exports[`conditional.jsx 2`] = `
@@ -20,10 +20,10 @@ exports[`conditional.jsx 2`] = `
 .x1e4w2a9 {font-size:16px}
 `;
 
-exports[`merging.jsx 1`] = `"export const Component = () => <div className={\`xp5623v\`} />;"`;
+exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"xp5623v\\"} />;"`;
 
 exports[`merging.jsx 2`] = `.xp5623v {color:green}`;
 
-exports[`simple.jsx 1`] = `"export const Component = () => <div className={\`x1e4w2a9\`} />;"`;
+exports[`simple.jsx 1`] = `"export const Component = () => <div className={\\"x1e4w2a9\\"} />;"`;
 
 exports[`simple.jsx 2`] = `.x1e4w2a9 {font-size:16px}`;
