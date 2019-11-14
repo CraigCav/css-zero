@@ -16,7 +16,12 @@ const transpile = (file: string) =>
     plugins: [plugin, dce],
   });
 
-it.each([['simple.jsx'], ['combining.jsx'], ['merging.jsx']])('%s', file => {
+it.each([
+  ['simple.jsx'],
+  ['combining.jsx'],
+  ['merging.jsx'],
+  ['conditional.jsx'],
+])('%s', file => {
   const { code, metadata } = transpile(`./fixtures/${file}`)!;
   expect(code).toMatchSnapshot();
   expect(metadata).toMatchSnapshot();
