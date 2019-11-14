@@ -1,6 +1,7 @@
 import jsx from '@babel/plugin-syntax-jsx';
 import TaggedTemplateExpression from './visitors/TaggedTemplateExpression';
 import isStyles from './utils/isStyles';
+import StyleCache from './StyleCache';
 
 export default function cssZeroBabelPlugin(babel) {
   const { types } = babel;
@@ -47,24 +48,17 @@ export default function cssZeroBabelPlugin(babel) {
       CallExpression(path: any, state: any) {
         if (!isStyles(path)) return;
 
+        const cache = new StyleCache(types);
         const args = path.get('arguments');
-
-        let usage = {};
-
-        let styles: any = {};
-        let conditionalStyles: any = {};
 
         args.forEach((arg, i) => {
           const result = arg.evaluate();
           const { confident, value } = result;
 
           if (confident && value) {
-            Object.assign(usage, value);
-            Object.assign(styles, value);
-            Object.entries(value).forEach(([key]) => {
-              const { [key]: _ignore, ...updated } = conditionalStyles;
-              conditionalStyles = updated;
-            });
+            Object.entries(value).forEach(([key, value]) =>
+              cache.addStyle(key, value)
+            );
             return;
           }
 
@@ -85,25 +79,9 @@ export default function cssZeroBabelPlugin(babel) {
                   `Styles argument only accepts boolean expressions in the form "{condition} && {css}".`
                 );
 
-              Object.entries(valueRight.value).forEach(([key, value]) => {
-                const current =
-                  key in styles
-                    ? types.stringLiteral(styles[key])
-                    : key in conditionalStyles
-                    ? conditionalStyles[key]
-                    : types.nullLiteral();
-
-                const { [key]: _ignore, ...updated } = styles;
-                styles = updated;
-
-                conditionalStyles[key] = types.conditionalExpression(
-                  left.node,
-                  types.stringLiteral(value),
-                  current || types.nullLiteral()
-                );
-              });
-
-              Object.assign(usage, valueRight.value);
+              Object.entries(valueRight.value).forEach(([key, value]) =>
+                cache.addConditionalStyle(key, value, left.node)
+              );
               return;
             case 'BooleanLiteral':
             case 'NullLiteral': {
@@ -115,10 +93,10 @@ export default function cssZeroBabelPlugin(babel) {
           }
         });
 
-        state.usage.push(...Object.values(usage));
+        state.usage.push(...cache.getUsedClassNames());
 
-        const expressions = Object.values(conditionalStyles);
-        const literals = Object.values(styles).join(' ');
+        const expressions = cache.getConditionalStyles();
+        const literals = cache.getStyles().join(' ');
 
         if (!expressions.length && !literals) {
           path.replaceWith(types.stringLiteral(''));
