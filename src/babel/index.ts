@@ -48,7 +48,7 @@ export default function cssZeroBabelPlugin(babel) {
       CallExpression(path: any, state: any) {
         if (!isStyles(path)) return;
 
-        const cache = new StyleCache(types);
+        const cache = new StyleCache();
         const args = path.get('arguments');
 
         args.forEach((arg, i) => {
@@ -113,7 +113,12 @@ export default function cssZeroBabelPlugin(babel) {
 
         path.replaceWith(
           expressions.reduce(
-            (current: any, node) => {
+            (current: any, { test, consequent, alternate }) => {
+              const node = types.conditionalExpression(
+                test,
+                types.stringLiteral(consequent),
+                types.stringLiteral(alternate)
+              );
               return current.type === 'NullLiteral'
                 ? node
                 : concat(concat(node, types.stringLiteral(' ')), current);
