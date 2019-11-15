@@ -1,7 +1,7 @@
-import StyleCache from '../StyleCache';
-import isStyles from '../utils/isStyles';
+const StyleCache = require('../StyleCache');
+const isStyles = require('../utils/isStyles');
 
-export default function CallExpression(path: any, state: any, types: any) {
+function CallExpression(path, state, types) {
   if (!isStyles(path)) return;
 
   const cache = new StyleCache();
@@ -9,12 +9,10 @@ export default function CallExpression(path: any, state: any, types: any) {
 
   args.forEach((arg, i) => {
     const result = arg.evaluate();
-    const { confident, value } = result;
+    const {confident, value} = result;
 
     if (confident && value) {
-      Object.entries(value).forEach(([key, value]) =>
-        cache.addStyle(key, value)
-      );
+      Object.entries(value).forEach(([key, value]) => cache.addStyle(key, value));
       return;
     }
 
@@ -24,7 +22,6 @@ export default function CallExpression(path: any, state: any, types: any) {
           throw arg.buildCodeFrameError(
             `Styles argument does not support the ${arg.node.operator} operator with dynamic values.`
           );
-
         const left = path.get(`arguments.${i}.left`);
         const right = path.get(`arguments.${i}.right`);
 
@@ -38,6 +35,7 @@ export default function CallExpression(path: any, state: any, types: any) {
         Object.entries(valueRight.value).forEach(([key, value]) =>
           cache.addConditionalStyle(key, value, left.node)
         );
+
         return;
       case 'BooleanLiteral':
       case 'NullLiteral': {
@@ -68,7 +66,7 @@ export default function CallExpression(path: any, state: any, types: any) {
 
   path.replaceWith(
     expressions.reduce(
-      (current: any, { test, consequent, alternate }) => {
+      (current, {test, consequent, alternate}) => {
         const node = types.conditionalExpression(
           test,
           types.stringLiteral(consequent),
@@ -82,3 +80,5 @@ export default function CallExpression(path: any, state: any, types: any) {
     )
   );
 }
+
+module.exports = CallExpression;

@@ -9,7 +9,6 @@ const units = [
   'rem',
   'lh',
   'rlh',
-
   // viewport percentage lengths
   'vw',
   'vh',
@@ -17,7 +16,6 @@ const units = [
   'vb',
   'vmin',
   'vmax',
-
   // absolute lengths
   'cm',
   'mm',
@@ -26,30 +24,24 @@ const units = [
   'pc',
   'pt',
   'px',
-
   // angle units
   'deg',
   'grad',
   'rad',
   'turn',
-
   // duration units
   's',
   'ms',
-
   // frequency units
   'Hz',
   'kHz',
-
   // resolution units
   'dpi',
   'dpcm',
   'dppx',
   'x',
-
   // https://www.w3.org/TR/css-grid-1/#fr-unit
   'fr',
-
   // percentages
   '%',
 ];
@@ -88,7 +80,6 @@ const unitless = {
   widows: true,
   zIndex: true,
   zoom: true,
-
   // SVG-related properties
   fillOpacity: true,
   floodOpacity: true,
@@ -100,4 +91,5 @@ const unitless = {
   strokeWidth: true,
 };
 
-export { units, unitless };
+exports.units = units;
+exports.unitless = unitless;

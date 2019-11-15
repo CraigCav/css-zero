@@ -1,23 +1,17 @@
-import cssToObject from 'css-to-object';
-import atomizer from '../utils/atomizer';
-import hasImport from '../utils/hasImport';
-import throwIfInvalid from '../utils/throwIfInvalid';
-import isSerializable from '../utils/isSerializable';
-import stripLines from '../utils/stripLines';
-import toCSS from '../utils/toCSS';
+const css_to_object = require('css-to-object');
+const atomizer = require('../utils/atomizer');
+const hasImport = require('../utils/hasImport');
+const throwIfInvalid = require('../utils/throwIfInvalid');
+const isSerializable = require('../utils/isSerializable');
+const stripLines = require('../utils/stripLines');
+const toCSS = require('../utils/toCSS');
 
-export default function TaggedTemplateExpression(
-  path: any,
-  state: any,
-  types: any
-) {
-  const { quasi, tag } = path.node;
+function TaggedTemplateExpression(path, state, types) {
+  const {quasi, tag} = path.node;
 
   let css;
 
-  if (
-    hasImport(types, path.scope, state.file.opts.filename, 'css', 'css-zero')
-  ) {
+  if (hasImport(types, path.scope, state.file.opts.filename, 'css', 'css-zero')) {
     css = types.isIdentifier(tag) && tag.name === 'css';
   }
 
@@ -26,17 +20,14 @@ export default function TaggedTemplateExpression(
   }
 
   const parent = path.findParent(
-    p =>
-      types.isObjectProperty(p) ||
-      types.isJSXOpeningElement(p) ||
-      types.isVariableDeclarator(p)
+    p => types.isObjectProperty(p) || types.isJSXOpeningElement(p) || types.isVariableDeclarator(p)
   );
 
   // Check if the variable is referenced anywhere for basic dead code elimination
   // Only works when it's assigned to a variable
   // TODO: figure out if this is a better way to do this: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#check-if-an-identifier-is-referenced
   if (parent && types.isVariableDeclarator(parent)) {
-    const { referencePaths } = path.scope.getBinding(parent.node.id.name);
+    const {referencePaths} = path.scope.getBinding(parent.node.id.name);
 
     if (referencePaths.length === 0) {
       path.remove();
@@ -51,15 +42,12 @@ export default function TaggedTemplateExpression(
 
   quasi.quasis.forEach((el, i, self) => {
     let appended = false;
-
     if (!appended) {
       cssText += el.value.cooked;
     }
-
     const ex = expressions[i];
-
     if (ex) {
-      const { end } = ex.node.loc;
+      const {end} = ex.node.loc;
       const result = ex.evaluate();
       const beforeLength = cssText.length;
 
@@ -67,10 +55,10 @@ export default function TaggedTemplateExpression(
       const next = self[i + 1];
       const loc = {
         // +1 because the expressions location always shows 1 column before
-        start: { line: el.loc.end.line, column: el.loc.end.column + 1 },
+        start: {line: el.loc.end.line, column: el.loc.end.column + 1},
         end: next
-          ? { line: next.loc.start.line, column: next.loc.start.column }
-          : { line: end.line, column: end.column + 1 },
+          ? {line: next.loc.start.line, column: next.loc.start.column}
+          : {line: end.line, column: end.column + 1},
       };
 
       if (result.confident) {
@@ -96,11 +84,10 @@ export default function TaggedTemplateExpression(
     }
   });
 
-  const rules = atomizer(cssToObject(cssText));
+  const rules = atomizer(css_to_object(cssText));
 
-  rules.forEach(([className, { cssText }]) => {
+  rules.forEach(([className, {cssText}]) => {
     const selector = `.${className}`;
-
     state.rules[selector] = {
       cssText,
       className,
@@ -111,12 +98,11 @@ export default function TaggedTemplateExpression(
   // replace initial template expression with
   path.replaceWith(
     types.objectExpression(
-      rules.map(([className, { key }]) =>
-        types.objectProperty(
-          types.stringLiteral(key),
-          types.stringLiteral(className)
-        )
+      rules.map(([className, {key}]) =>
+        types.objectProperty(types.stringLiteral(key), types.stringLiteral(className))
       )
     )
   );
 }
+
+module.exports = TaggedTemplateExpression;

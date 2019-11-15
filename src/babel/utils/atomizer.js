@@ -1,7 +1,6 @@
-import hash from 'fnv1a';
+const fnv1a = require('fnv1a');
 
-const id = seed => 'x' + hash(seed).toString(36);
-
+const id = seed => 'x' + fnv1a(seed).toString(36);
 const hyphenate = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase();
 
 const createRule = (key, value, media) => {
@@ -18,16 +17,8 @@ const createRule = (key, value, media) => {
 const AT_REG = /^@/;
 const AMP = /&/g;
 
-type Style = {
-  key: string;
-  value: string;
-  media: string | '';
-  cssText: string;
-};
-type Rule = [string, Style];
-
 const parse = (obj, children = '', media = '') => {
-  const rules: Rule[] = [];
+  const rules = [];
 
   for (const key in obj) {
     const value = obj[key];
@@ -52,4 +43,4 @@ const parse = (obj, children = '', media = '') => {
   return rules;
 };
 
-export default (obj = {}) => parse(obj);
+module.exports = (obj = {}) => parse(obj);

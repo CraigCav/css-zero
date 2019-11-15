@@ -1,8 +1,8 @@
-import generator from '@babel/generator';
-import isSerializable from './isSerializable';
+const generator = require('@babel/generator');
+const isSerializable = require('./isSerializable');
 
 // Throw if we can't handle the interpolated value
-export default function throwIfInvalid(value: any, ex: any) {
+function throwIfInvalid(value, ex) {
   if (
     typeof value === 'function' ||
     typeof value === 'string' ||
@@ -11,13 +11,12 @@ export default function throwIfInvalid(value: any, ex: any) {
   ) {
     return;
   }
-
-  const stringified =
-    typeof value === 'object' ? JSON.stringify(value) : String(value);
-
+  const stringified = typeof value === 'object' ? JSON.stringify(value) : String(value);
   throw ex.buildCodeFrameError(
     `The expression evaluated to '${stringified}', which is probably a mistake. If you want it to be inserted into CSS, explicitly cast or transform the value to a string, e.g. - 'String(${
       generator(ex.node).code
     })'.`
   );
 }
+
+module.exports = throwIfInvalid;

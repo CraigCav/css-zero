@@ -1,13 +1,7 @@
-import { dirname } from 'path';
+const path = require('path');
 
 // Verify if the binding is imported from the specified source
-export default function hasImport(
-  t: any,
-  scope: any,
-  filename: string,
-  identifier: string,
-  source: string
-) {
+function hasImport(t, scope, filename, identifier, source) {
   const binding = scope.getAllBindings()[identifier];
 
   if (!binding) {
@@ -18,12 +12,11 @@ export default function hasImport(
 
   const resolveFromFile = id => {
     const M = require('module');
-
     try {
       return M._resolveFilename(id, {
         id: filename,
         filename,
-        paths: M._nodeModulePaths(dirname(filename)),
+        paths: M._nodeModulePaths(path.dirname(filename)),
       });
     } catch (e) {
       return null;
@@ -58,6 +51,7 @@ export default function hasImport(
       }
     }
   }
-
   return false;
 }
+
+module.exports = hasImport;

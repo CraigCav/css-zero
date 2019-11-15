@@ -17,30 +17,35 @@
   "files": [
     "dist"
   ],
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.test.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "prettier": {
-    "printWidth": 80,
-    "semi": true,
     "singleQuote": true,
-    "trailingComma": "es5"
+    "printWidth": 100,
+    "trailingComma": "es5",
+    "bracketSpacing": false
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint"
+    "test": "jest"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-syntax-jsx": "^7.2.0",
-    "@types/babel-plugin-syntax-jsx": "^6.18.0",
-    "@types/babel__core": "^7.1.3",
-    "@types/jest": "^24.0.22",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-jest": "^24.9.0",
     "babel-plugin-remove-unused-vars": "^2.2.0",
     "css-to-object": "^1.1.0",
     "fnv1a": "^1.0.1",
-    "tsdx": "^0.11.0",
-    "tslib": "^1.10.0",
-    "typescript": "^3.7.2"
+    "jest": "^24.9.0"
   },
   "dependencies": {}
 }

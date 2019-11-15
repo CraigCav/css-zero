@@ -1,7 +1,7 @@
-import isSerializable from './isSerializable';
-import { unitless } from '../units';
+const isSerializable = require('./isSerializable');
+const units = require('../units');
 
-const hyphenate = (s: string) =>
+const hyphenate = s =>
   s
     // Hyphenate CSS property names from camelCase version from JS string
     .replace(/([A-Z])/g, (_match, p1) => `-${p1.toLowerCase()}`)
@@ -10,7 +10,7 @@ const hyphenate = (s: string) =>
 
 // Some tools such as polished.js output JS objects
 // To support them transparently, we convert JS objects to CSS strings
-export default function toCSS(o: any) {
+function toCSS(o) {
   if (Array.isArray(o)) {
     return o.map(toCSS).join('\n');
   }
@@ -29,7 +29,7 @@ export default function toCSS(o: any) {
       return `${hyphenate(key)}: ${
         typeof value === 'number' &&
         value !== 0 &&
-        !unitless[
+        !units.unitless[
           // Strip vendor prefixes when checking if the value is unitless
           key.replace(
             /^(Webkit|Moz|O|ms)([A-Z])(.+)$/,
@@ -42,3 +42,5 @@ export default function toCSS(o: any) {
     })
     .join(' ');
 }
+
+module.exports = toCSS;

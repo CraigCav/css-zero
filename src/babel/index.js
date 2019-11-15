@@ -1,15 +1,15 @@
-import jsx from '@babel/plugin-syntax-jsx';
-import TaggedTemplateExpression from './visitors/TaggedTemplateExpression';
-import CallExpression from './visitors/CallExpression';
+const jsx = require('@babel/plugin-syntax-jsx');
+const TaggedTemplateExpression = require('./visitors/TaggedTemplateExpression');
+const CallExpression = require('./visitors/CallExpression');
 
-export default function cssZeroBabelPlugin(babel) {
-  const { types } = babel;
+function cssZeroBabelPlugin(babel) {
+  const {types} = babel;
   return {
     name: 'css-zero',
-    inherits: jsx,
+    inherits: jsx.default,
     visitor: {
       Program: {
-        enter(path: any, state: any) {
+        enter(path, state) {
           state.rules = {};
           state.dependencies = [];
           state.replacements = [];
@@ -17,21 +17,18 @@ export default function cssZeroBabelPlugin(babel) {
           // We need our transforms to run before anything else
           // So we traverse here instead of a in a visitor
           path.traverse({
-            TaggedTemplateExpression: p =>
-              TaggedTemplateExpression(p, state, types),
+            TaggedTemplateExpression: p => TaggedTemplateExpression(p, state, types),
           });
         },
-        exit(_path: any, state: any) {
-          const { rules: allRules, usage } = state;
-
+        exit(_path, state) {
+          const {rules: allRules, usage} = state;
           // now clean up and rules that are unused due to merging
           const rules = Object.keys(allRules)
             .filter(key => !usage.includes(key.slice(1)))
             .reduce((prev, next) => {
-              const { [next]: _ignore, ...res } = prev;
+              const {[next]: _ignore, ...res} = prev;
               return res;
             }, allRules);
-
           if (Object.keys(rules).length) {
             // Store the result as the file metadata
             state.file.metadata = {
@@ -44,9 +41,11 @@ export default function cssZeroBabelPlugin(babel) {
           }
         },
       },
-      CallExpression(path: any, state: any) {
+      CallExpression(path, state) {
         CallExpression(path, state, types);
       },
     },
   };
 }
+
+module.exports = cssZeroBabelPlugin;
