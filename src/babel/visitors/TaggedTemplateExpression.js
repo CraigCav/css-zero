@@ -11,7 +11,11 @@ function TaggedTemplateExpression(path, state, types) {
 
   let css;
 
-  if (hasImport(types, path.scope, state.file.opts.filename, 'css', 'css-zero')) {
+  if (
+    hasImport(types, path.scope, state.file.opts.filename, 'css', 'css-zero') ||
+    hasImport(types, path.scope, state.file.opts.filename, 'css', 'css-zero/macro') ||
+    hasImport(types, path.scope, state.file.opts.filename, 'css', '../../../macro')
+  ) {
     css = types.isIdentifier(tag) && tag.name === 'css';
   }
 

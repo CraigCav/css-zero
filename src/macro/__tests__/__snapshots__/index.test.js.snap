@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`macros simple macro: simple macro 1`] = `
+"
+import { css, styles } from '../../../macro';
+
+const blue = css\`
+  color: blue;
+\`;
+
+const base = css\`
+  color: red;
+  font-size: 16px;
+\`;
+
+export default props => (
+  <div className={styles(base, props.isBlue && blue)} />
+);
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import \\"./index.test.zero.css\\";
+export default (props => <div className={(props.isBlue ? \\"x1vong5g\\" : \\"x1dqz7z3\\") + \\" \\" + \\"x1e4w2a9\\"} />);
+"
+`;
