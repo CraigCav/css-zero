@@ -70,11 +70,6 @@ function TaggedTemplateExpression(path, state, types) {
         } else {
           cssText += stripLines(loc, result.value);
         }
-
-        state.replacements.push({
-          original: loc,
-          length: cssText.length - beforeLength,
-        });
       } else {
         // CSS custom properties can't be used outside components
         throw ex.buildCodeFrameError(

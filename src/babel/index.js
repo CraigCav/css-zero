@@ -12,7 +12,6 @@ function cssZeroBabelPlugin(babel) {
         enter(path, state) {
           state.rules = {};
           state.dependencies = [];
-          state.replacements = [];
           state.usage = [];
           // We need our transforms to run before anything else
           // So we traverse here instead of a in a visitor
@@ -34,7 +33,6 @@ function cssZeroBabelPlugin(babel) {
             state.file.metadata = {
               cssZero: {
                 rules: rules,
-                replacements: state.replacements,
                 dependencies: state.dependencies,
               },
             };
