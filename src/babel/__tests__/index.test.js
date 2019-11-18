@@ -5,8 +5,7 @@ const plugin = require('../');
 
 expect.addSnapshotSerializer({
   test: value => value && typeof value.cssZero === 'object',
-  print: ({cssZero: {rules}}) =>
-    rules.map(({selector, cssText}) => `${selector} {${cssText}}`).join('\n'),
+  print: ({cssZero}) => cssZero.toString(),
 });
 
 const transpile = file =>

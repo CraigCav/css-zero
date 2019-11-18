@@ -1,6 +1,7 @@
 const jsx = require('@babel/plugin-syntax-jsx');
 const TaggedTemplateExpression = require('./visitors/TaggedTemplateExpression');
 const CallExpression = require('./visitors/CallExpression');
+const StyleSheet = require('../StyleSheet');
 
 function cssZeroBabelPlugin(babel) {
   const {types} = babel;
@@ -10,8 +11,7 @@ function cssZeroBabelPlugin(babel) {
     visitor: {
       Program: {
         enter(path, state) {
-          state.rules = [];
-          state.usage = [];
+          state.styleSheet = new StyleSheet();
           // We need our transforms to run before anything else
           // So we traverse here instead of a in a visitor
           path.traverse({
@@ -19,15 +19,10 @@ function cssZeroBabelPlugin(babel) {
           });
         },
         exit(_path, state) {
-          const {rules: allRules, usage} = state;
+          const {styleSheet} = state;
 
-          // now clean up and rules that are unused due to merging
-          const rules = allRules.filter(({className}) => usage.includes(className));
-
-          if (rules.length) {
-            // Store the result as the file metadata
-            state.file.metadata = {cssZero: {rules: rules}};
-          }
+          // Store the result as the file metadata
+          state.file.metadata = {cssZero: styleSheet};
         },
       },
       CallExpression(path, state) {

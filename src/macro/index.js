@@ -1,10 +1,11 @@
 const {readFileSync, writeFileSync} = require('fs');
 const {dirname, basename, relative} = require('path');
 const mkdirp = require('mkdirp');
-const TaggedTemplateExpression = require('../babel/visitors/TaggedTemplateExpression');
-const CallExpression = require('../babel/visitors/CallExpression');
 const {createMacro} = require('babel-plugin-macros');
 const {addSideEffect} = require('@babel/helper-module-imports');
+const TaggedTemplateExpression = require('../babel/visitors/TaggedTemplateExpression');
+const CallExpression = require('../babel/visitors/CallExpression');
+const StyleSheet = require('../StyleSheet');
 
 const checkType = (path, type) => {
   if (path.parentPath.type !== type)
@@ -20,10 +21,9 @@ exports.createCssZeroMacro = () =>
     const cssRefs = references.css || [];
     const stylesRefs = references.styles || [];
 
-    const rules = [];
-    const usage = [];
+    const styleSheet = new StyleSheet();
 
-    Object.assign(state, {rules, usage});
+    Object.assign(state, {styleSheet});
 
     cssRefs.forEach(ref => {
       checkType(ref, 'TaggedTemplateExpression');
@@ -41,7 +41,7 @@ exports.createCssZeroMacro = () =>
     });
 
     // if no styles have been used, there's no more work to do
-    if (!Object.keys(usage).length) return;
+    if (!Object.keys(styleSheet.usage).length) return;
 
     const filename = state.file.opts.filename;
 
@@ -52,10 +52,7 @@ exports.createCssZeroMacro = () =>
     addSideEffect(stylesRefs[0], './' + basename(outputFilename));
 
     // combine all the used styles
-    const cssText = rules
-      .filter(({className}) => usage.includes(className))
-      .map(({selector, cssText}) => `${selector} {${cssText}}`)
-      .join('');
+    const cssText = styleSheet.toString();
 
     // Read the file first to compare the content
     // Write the new content only if it's changed

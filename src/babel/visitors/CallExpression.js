@@ -47,7 +47,7 @@ function CallExpression(path, state, types) {
     }
   });
 
-  state.usage.push(...cache.getUsedClassNames());
+  state.styleSheet.trackUsage(...cache.getUsedClassNames());
 
   const expressions = cache.getConditionalStyles();
   const literals = cache.getStyles().join(' ');

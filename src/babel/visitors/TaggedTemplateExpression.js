@@ -46,7 +46,7 @@ function TaggedTemplateExpression(path, state, types) {
   const rules = atomizer(css_to_object(cssText));
 
   rules.forEach(([className, {selector, cssText}]) => {
-    state.rules.push({
+    state.styleSheet.addRule({
       className,
       selector,
       cssText,
