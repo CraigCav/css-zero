@@ -1,10 +1,6 @@
 const css_to_object = require('css-to-object');
 const atomizer = require('../utils/atomizer');
 const hasImport = require('../utils/hasImport');
-const throwIfInvalid = require('../utils/throwIfInvalid');
-const isSerializable = require('../utils/isSerializable');
-const stripLines = require('../utils/stripLines');
-const toCSS = require('../utils/toCSS');
 
 function TaggedTemplateExpression(path, state, types) {
   const {quasi, tag} = path.node;
@@ -41,8 +37,6 @@ function TaggedTemplateExpression(path, state, types) {
 
   // Serialize the tagged template literal to a string
   let cssText = '';
-
-  const expressions = path.get('quasi').get('expressions');
 
   quasi.quasis.forEach(el => {
     // TODO: interpolation of static values
