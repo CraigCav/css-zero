@@ -32,6 +32,13 @@ exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"x
 
 exports[`merging.jsx 2`] = `.xp5623v {color:green}`;
 
+exports[`pseudo.jsx 1`] = `"export const Component = () => <div className={\\"x1dqz7z3 x1jz5mb\\"} />;"`;
+
+exports[`pseudo.jsx 2`] = `
+.x1dqz7z3 {color:red}
+.x1jz5mb:hover {color:green}
+`;
+
 exports[`simple.jsx 1`] = `"export const Component = () => <div className={\\"x1e4w2a9\\"} />;"`;
 
 exports[`simple.jsx 2`] = `.x1e4w2a9 {font-size:16px}`;

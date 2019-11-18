@@ -3,12 +3,13 @@ const fnv1a = require('fnv1a');
 const id = seed => 'x' + fnv1a(seed).toString(36);
 const hyphenate = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase();
 
-const createRule = (key, value, media) => {
+const createRule = (className, key, value, children, media) => {
   const hyphenated = hyphenate(key);
-  const cssText = hyphenated + ':' + value;
+  let cssText = hyphenated + ':' + value;
+
   return {
-    key: hyphenated,
-    value,
+    key: children + hyphenated,
+    selector: '.' + className + children,
     media,
     cssText: media ? media + '{' + cssText + '}' : cssText,
   };
@@ -35,7 +36,7 @@ const parse = (obj, children = '', media = '') => {
       case 'number':
       case 'string':
         const className = id(key + value + children + media);
-        const rule = createRule(key, value, media);
+        const rule = createRule(className, key, value, children, media);
         rules.push([className, rule]);
     }
   }
