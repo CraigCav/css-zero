@@ -1,27 +1,72 @@
-# TSDX Bootstrap
+# CSS-Zero
 
-This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+## Features
 
-## Local Development
+- Write CSS-in-JS, with all of the benefits, but with **zero runtime code**
+- Write your styles with familiar CSS Syntax, but benefit from optimized, generated atomic CSS with no duplicated style rules
+- Style resolution based on order of application, rather than the cascade
+- Server-side rendering support with no additional configuration
+- Easy composition of styles, with property name collisions eliminated via static analysis
+- Theme support via CSS variables, allowing the cost of theming to be proportional to the size of the color palette
+- Fast parsing of styles, with no extra parsing needed for CSS.
 
-Below is a list of commands you will probably find useful.
+These benefits are in addition to the more general benefits of using CSS-in-JS:
 
-### `npm start` or `yarn start`
+- Scoped selectors to avoid accidental collision of styles
+- Styles co-located with your component reduces context switching
+- Refactor with confidence when changing/removing styles
+- Detect unused styles with EsLint, just like normal JS variables
+- Declarative dynamic styling with React
 
-Runs the project in development/watch mode. Your project will be rebuilt upon changes. TSDX has a special logger for you convenience. Error messages are pretty printed and formatted for compatibility VS Code's Problems tab.
+## Installation
 
-<img src="https://user-images.githubusercontent.com/4060187/52168303-574d3a00-26f6-11e9-9f3b-71dbec9ebfcb.gif" width="600" />
+Since CSS-Zero has no runtime, it can be installed purely as a devDependency:
 
-Your library will be rebuilt if you make edits.
+```
+npm install css-zero --save-dev
+```
 
-### `npm run build` or `yarn build`
+## Setup
 
-Bundles the package to the `dist` folder.
-The package is optimized and bundled with Rollup into multiple formats (CommonJS, UMD, and ES Module).
+The simplest way to run CSS-Zero in a React application is using our Babel Macro:
 
-<img src="https://user-images.githubusercontent.com/4060187/52168322-a98e5b00-26f6-11e9-8cf6-222d716b75ef.gif" width="600" />
+```jsx
+import {css, styled} from 'css-zero/macro';
+```
 
-### `npm test` or `yarn test`
+For applications created using Create React App (which supports both Babel Macros and CSS Modules out-of-the-box), no further setup or configuration is needed.
 
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.
+For usage with other front-end frameworks, CSS-Zero can be set up with our babel-plugin.
+
+## Syntax
+
+The basic usage of CSS-Zero looks like this:
+
+```jsx
+import {css, styles} from 'css-zero';
+
+// Write your styles using the `css` tag
+const blue = css`
+  color: blue;
+`;
+
+const base = css`
+  color: red;
+  font-size: 16px;
+`;
+
+// then use the `styles` helper to compose your styles and generate class names
+export default props => <div className={styles(base, props.isBlue && blue)} />;
+```
+
+## Demo
+
+[![Edit CSS-Zero Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://github.com/craigcav/css-zero/tree/master/example)
+
+## Inspiration
+
+- [emotion](https://emotion.sh/)
+- [linaria](https://github.com/callstack/linaria)
+- [style-sheet](https://github.com/giuseppeg/style-sheet)
+- [Facebook stylex](https://www.youtube.com/watch?v=9JZHodNR184&list=PLPxbbTqCLbGHPxZpw4xj_Wwg8-fdNxJRh&index=3)
+- [object-style](https://github.com/jxnblk/object-style)
