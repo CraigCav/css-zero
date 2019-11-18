@@ -6,9 +6,7 @@ const plugin = require('../');
 expect.addSnapshotSerializer({
   test: value => value && typeof value.cssZero === 'object',
   print: ({cssZero: {rules}}) =>
-    Object.entries(rules)
-      .map(([key, value]) => `${key} {${value.cssText}}`)
-      .join('\n'),
+    rules.map(({selector, cssText}) => `${selector} {${cssText}}`).join('\n'),
 });
 
 const transpile = file =>
@@ -23,6 +21,7 @@ it.each([
   ['merging.jsx'],
   ['conditional.jsx'],
   ['conditional-with-dce.jsx'],
+  ['pseudo.jsx'],
 ])('%s', file => {
   const {code, metadata} = transpile(`./fixtures/${file}`);
   expect(code).toMatchSnapshot();

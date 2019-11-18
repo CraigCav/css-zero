@@ -20,7 +20,7 @@ exports.createCssZeroMacro = () =>
     const cssRefs = references.css || [];
     const stylesRefs = references.styles || [];
 
-    const rules = {};
+    const rules = [];
     const usage = [];
 
     Object.assign(state, {rules, usage});
@@ -52,9 +52,9 @@ exports.createCssZeroMacro = () =>
     addSideEffect(stylesRefs[0], './' + basename(outputFilename));
 
     // combine all the used styles
-    const cssText = Object.entries(rules)
-      .filter(([key]) => usage.includes(key.slice(1)))
-      .map(([key, value]) => `${key} {${value.cssText}}`)
+    const cssText = rules
+      .filter(({className}) => usage.includes(className))
+      .map(({selector, cssText}) => `${selector} {${cssText}}`)
       .join('');
 
     // Read the file first to compare the content

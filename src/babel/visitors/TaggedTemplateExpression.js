@@ -45,13 +45,12 @@ function TaggedTemplateExpression(path, state, types) {
 
   const rules = atomizer(css_to_object(cssText));
 
-  rules.forEach(([className, {cssText}]) => {
-    const selector = `.${className}`;
-    state.rules[selector] = {
-      cssText,
+  rules.forEach(([className, {selector, cssText}]) => {
+    state.rules.push({
       className,
-      start: path.parent && path.parent.loc ? path.parent.loc.start : null,
-    };
+      selector,
+      cssText,
+    });
   });
 
   // replace initial template expression with

@@ -10,8 +10,7 @@ function cssZeroBabelPlugin(babel) {
     visitor: {
       Program: {
         enter(path, state) {
-          state.rules = {};
-          state.dependencies = [];
+          state.rules = [];
           state.usage = [];
           // We need our transforms to run before anything else
           // So we traverse here instead of a in a visitor
@@ -21,21 +20,13 @@ function cssZeroBabelPlugin(babel) {
         },
         exit(_path, state) {
           const {rules: allRules, usage} = state;
+
           // now clean up and rules that are unused due to merging
-          const rules = Object.keys(allRules)
-            .filter(key => !usage.includes(key.slice(1)))
-            .reduce((prev, next) => {
-              const {[next]: _ignore, ...res} = prev;
-              return res;
-            }, allRules);
-          if (Object.keys(rules).length) {
+          const rules = allRules.filter(({className}) => usage.includes(className));
+
+          if (rules.length) {
             // Store the result as the file metadata
-            state.file.metadata = {
-              cssZero: {
-                rules: rules,
-                dependencies: state.dependencies,
-              },
-            };
+            state.file.metadata = {cssZero: {rules: rules}};
           }
         },
       },
