@@ -1,6 +1,6 @@
 import {css, styles} from 'css-zero';
 
-const one = css`
+const simple = css`
   color: red;
 
   &:hover {
@@ -8,4 +8,32 @@ const one = css`
   }
 `;
 
-export const Component = () => <div className={styles(one)} />;
+const duplicate = css`
+  color: black;
+
+  &:hover {
+    color: yellow;
+  }
+
+  &:hover {
+    color: yellow;
+  }
+`;
+
+const overridden = css`
+  color: brown;
+
+  &:hover {
+    color: pink;
+  }
+
+  &:hover {
+    color: salmon;
+  }
+`;
+
+export const Component = () => <div className={styles(simple)} />;
+
+export const ComponentWithDuplicatePseudoStyle = () => <div className={styles(duplicate)} />;
+
+export const ComponentWithOverriddenPseudoStyle = () => <div className={styles(overridden)} />;

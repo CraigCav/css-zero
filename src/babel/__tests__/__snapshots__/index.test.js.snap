@@ -32,11 +32,19 @@ exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"x
 
 exports[`merging.jsx 2`] = `.xp5623v {color:green}`;
 
-exports[`pseudo.jsx 1`] = `"export const Component = () => <div className={\\"x1dqz7z3 x1jz5mb\\"} />;"`;
+exports[`pseudo.jsx 1`] = `
+"export const Component = () => <div className={\\"x1dqz7z3 x1jz5mb\\"} />;
+export const ComponentWithDuplicatePseudoStyle = () => <div className={\\"x1ug2cuz x17vggq8\\"} />;
+export const ComponentWithOverriddenPseudoStyle = () => <div className={\\"x17bvl1g xjhh7o6\\"} />;"
+`;
 
 exports[`pseudo.jsx 2`] = `
 .x1dqz7z3 {color:red}
 .x1jz5mb:hover {color:green}
+.x1ug2cuz {color:black}
+.x17vggq8:hover {color:yellow}
+.x17bvl1g {color:brown}
+.xjhh7o6:hover {color:salmon}
 `;
 
 exports[`simple.jsx 1`] = `"export const Component = () => <div className={\\"x1e4w2a9\\"} />;"`;
