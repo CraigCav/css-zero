@@ -20,6 +20,14 @@ exports[`conditional.jsx 2`] = `
 .x1e4w2a9 {font-size:16px}
 `;
 
+exports[`conditional-with-dce.jsx 1`] = `"export const LogicalAndExpression = props => <div className={(props.isBlue ? \\"x1vong5g\\" : \\"x1dqz7z3\\") + \\" \\" + \\"x1e4w2a9\\"} />;"`;
+
+exports[`conditional-with-dce.jsx 2`] = `
+.x1vong5g {color:blue}
+.x1dqz7z3 {color:red}
+.x1e4w2a9 {font-size:16px}
+`;
+
 exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"xp5623v\\"} />;"`;
 
 exports[`merging.jsx 2`] = `.xp5623v {color:green}`;

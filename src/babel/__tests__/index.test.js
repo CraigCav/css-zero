@@ -17,7 +17,13 @@ const transpile = file =>
     babelrc: false,
   });
 
-it.each([['simple.jsx'], ['combining.jsx'], ['merging.jsx'], ['conditional.jsx']])('%s', file => {
+it.each([
+  ['simple.jsx'],
+  ['combining.jsx'],
+  ['merging.jsx'],
+  ['conditional.jsx'],
+  ['conditional-with-dce.jsx'],
+])('%s', file => {
   const {code, metadata} = transpile(`./fixtures/${file}`);
   expect(code).toMatchSnapshot();
   expect(metadata).toMatchSnapshot();

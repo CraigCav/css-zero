@@ -2,11 +2,10 @@ module.exports = class StyleCache {
   constructor() {
     this.styles = new Map();
     this.conditionalStyles = new Map();
-    this.appliedClassNames = new Map();
+    this.conditionallyAppliedClassNames = [];
   }
   addStyle(key, value) {
     this.styles.set(key, value);
-    this.appliedClassNames.set(key, value);
     this.conditionalStyles.delete(key);
   }
   addConditionalStyle(key, value, test) {
@@ -21,7 +20,8 @@ module.exports = class StyleCache {
       consequent: value,
       alternate: current,
     });
-    this.appliedClassNames.set(key, value);
+    this.conditionallyAppliedClassNames.push(value);
+    if (typeof current === 'string') this.conditionallyAppliedClassNames.push(current);
   }
   getStyles() {
     return Array.from(this.styles.values());
@@ -30,6 +30,6 @@ module.exports = class StyleCache {
     return Array.from(this.conditionalStyles.values());
   }
   getUsedClassNames() {
-    return Array.from(this.appliedClassNames.values());
+    return [...this.styles.values(), ...this.conditionallyAppliedClassNames];
   }
 };
