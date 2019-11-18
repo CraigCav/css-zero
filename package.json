@@ -11,12 +11,8 @@
   ],
   "license": "MIT",
   "author": "Craig Cavalier",
-  "main": "dist/index.js",
-  "module": "dist/css-zero.esm.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "src/index.js",
+  "typings": "src/index.d.ts",
   "jest": {
     "testMatch": [
       "**/__tests__/**/*.test.[jt]s?(x)",
