@@ -61,7 +61,7 @@ export default props => <div className={styles(base, props.isBlue && blue)} />;
 
 ## Demo
 
-[![Edit CSS-Zero Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://github.com/craigcav/css-zero/tree/master/example)
+[![Edit CSS-Zero Create React App Example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-ogzzo?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Inspiration
 
