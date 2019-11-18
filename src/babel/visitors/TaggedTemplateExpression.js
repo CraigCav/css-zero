@@ -44,43 +44,9 @@ function TaggedTemplateExpression(path, state, types) {
 
   const expressions = path.get('quasi').get('expressions');
 
-  quasi.quasis.forEach((el, i, self) => {
-    let appended = false;
-    if (!appended) {
-      cssText += el.value.cooked;
-    }
-    const ex = expressions[i];
-    if (ex) {
-      const {end} = ex.node.loc;
-      const result = ex.evaluate();
-      const beforeLength = cssText.length;
-
-      // The location will be end of the current string to start of next string
-      const next = self[i + 1];
-      const loc = {
-        // +1 because the expressions location always shows 1 column before
-        start: {line: el.loc.end.line, column: el.loc.end.column + 1},
-        end: next
-          ? {line: next.loc.start.line, column: next.loc.start.column}
-          : {line: end.line, column: end.column + 1},
-      };
-
-      if (result.confident) {
-        throwIfInvalid(result.value, ex);
-
-        if (isSerializable(result.value)) {
-          // If it's a plain object, convert it to a CSS string
-          cssText += stripLines(loc, toCSS(result.value));
-        } else {
-          cssText += stripLines(loc, result.value);
-        }
-      } else {
-        // CSS custom properties can't be used outside components
-        throw ex.buildCodeFrameError(
-          `The CSS cannot contain JavaScript expressions when using the 'css' tag. To evaluate the expressions at build time, pass 'evaluate: true' to the babel plugin.`
-        );
-      }
-    }
+  quasi.quasis.forEach(el => {
+    // TODO: interpolation of static values
+    cssText += el.value.cooked;
   });
 
   const rules = atomizer(css_to_object(cssText));
