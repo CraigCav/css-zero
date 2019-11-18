@@ -21,6 +21,7 @@ it.each([
   ['conditional.jsx'],
   ['conditional-with-dce.jsx'],
   ['pseudo.jsx'],
+  ['media-query.jsx'],
 ])('%s', file => {
   const {code, metadata} = transpile(`./fixtures/${file}`);
   expect(code).toMatchSnapshot();

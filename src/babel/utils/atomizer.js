@@ -8,7 +8,7 @@ const createRule = (className, key, value, children, media) => {
   let cssText = hyphenated + ':' + value;
 
   return {
-    key: children + hyphenated,
+    key: media + children + hyphenated,
     selector: '.' + className + children,
     media,
     cssText: media ? media + '{' + cssText + '}' : cssText,

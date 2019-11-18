@@ -28,6 +28,27 @@ exports[`conditional-with-dce.jsx 2`] = `
 .x1e4w2a9 {font-size:16px}
 `;
 
+exports[`media-query.jsx 1`] = `
+"export const Component = () => <div className={\\"x1dqz7z3 x1lrxh9v\\"} />;
+export const ComponentWithDuplicateMediaStyle = () => <div className={\\"x1ug2cuz xj95doo\\"} />;
+export const ComponentWithOverriddenMediaStyle = () => <div className={\\"x17bvl1g xkuztku\\"} />;
+export const ComponentWithNestedPseudo = () => <div className={\\"xfxv4bd x1oikiae\\"} />;
+export const ComponentWithParentPseudo = () => <div className={\\"xashdej x1dp08z\\"} />;"
+`;
+
+exports[`media-query.jsx 2`] = `
+.x1dqz7z3 {color:red}
+.x1lrxh9v {@media screen and (min-width: 678px){color:green}}
+.x1ug2cuz {color:black}
+.xj95doo {@media screen and (min-width: 678px){color:yellow}}
+.x17bvl1g {color:brown}
+.xkuztku {@media screen and (min-width: 678px){color:salmon}}
+.xfxv4bd {color:silver}
+.x1oikiae:hover {@media screen and (min-width: 678px){color:gold}}
+.xashdej {color:wheat}
+.x1dp08z:hover {@media screen and (min-width: 678px){color:sandybrown}}
+`;
+
 exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"xp5623v\\"} />;"`;
 
 exports[`merging.jsx 2`] = `.xp5623v {color:green}`;
