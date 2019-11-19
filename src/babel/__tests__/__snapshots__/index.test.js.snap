@@ -53,6 +53,16 @@ exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"x
 
 exports[`merging.jsx 2`] = `.xp5623v {color:green}`;
 
+exports[`nested.jsx 1`] = `"export const Component = () => <div className={\\"x194k0cs x1c2oj3k x1pvsa1a xz7a8fm xt08vo6\\"} />;"`;
+
+exports[`nested.jsx 2`] = `
+.x194k0cs h1 {font-size:32px}
+.x1c2oj3k section {font-size:16px}
+.x1pvsa1a section h1 {font-size:28px}
+.xz7a8fm section {@media screen and (min-width: 678px){font-size:18px}}
+.xt08vo6 section h1 {@media screen and (min-width: 678px){font-size:42px}}
+`;
+
 exports[`pseudo.jsx 1`] = `
 "export const Component = () => <div className={\\"x1dqz7z3 x1jz5mb\\"} />;
 export const ComponentWithDuplicatePseudoStyle = () => <div className={\\"x1ug2cuz x17vggq8\\"} />;

@@ -1,22 +1,24 @@
 const fnv1a = require('fnv1a');
 
+const AT_REG = /^@/;
+const AMP = /&/g;
+const COLON = /^:/;
+
 const id = seed => 'x' + fnv1a(seed).toString(36);
 const hyphenate = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase();
 
 const createRule = (className, key, value, children, media) => {
   const hyphenated = hyphenate(key);
-  let cssText = hyphenated + ':' + value;
+  const classSelector = '.' + className;
+  const selector = classSelector + (!children || COLON.test(children) ? '' : ' ') + children;
+  const cssText = hyphenated + ':' + value;
 
   return {
     key: media + children + hyphenated,
-    selector: '.' + className + children,
-    media,
+    selector: selector,
     cssText: media ? media + '{' + cssText + '}' : cssText,
   };
 };
-
-const AT_REG = /^@/;
-const AMP = /&/g;
 
 const parse = (obj, children = '', media = '') => {
   const rules = [];
