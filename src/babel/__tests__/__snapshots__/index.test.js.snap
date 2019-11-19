@@ -38,15 +38,17 @@ export const ComponentWithParentPseudo = () => <div className={\\"xashdej x1dp08
 
 exports[`media-query.jsx 2`] = `
 .x1dqz7z3 {color:red}
-.x1lrxh9v {@media screen and (min-width: 678px){color:green}}
 .x1ug2cuz {color:black}
-.xj95doo {@media screen and (min-width: 678px){color:yellow}}
 .x17bvl1g {color:brown}
-.xkuztku {@media screen and (min-width: 678px){color:salmon}}
 .xfxv4bd {color:silver}
-.x1oikiae:hover {@media screen and (min-width: 678px){color:gold}}
 .xashdej {color:wheat}
-.x1dp08z:hover {@media screen and (min-width: 678px){color:sandybrown}}
+@media screen and (min-width: 678px){
+.x1lrxh9v {color:green}
+.xj95doo {color:yellow}
+.xkuztku {color:salmon}
+.x1oikiae:hover {color:gold}
+.x1dp08z:hover {color:sandybrown}
+}
 `;
 
 exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"xp5623v\\"} />;"`;

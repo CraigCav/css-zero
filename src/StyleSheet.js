@@ -13,12 +13,23 @@ module.exports = class StyleSheet {
   }
 
   toString() {
-    const usedRules = this.rules
-      .filter(({className}) => this.usage.includes(className))
-      .map(({selector, cssText}) => `${selector} {${cssText}}`);
+    // filter unused rules
+    const filtered = this.rules.filter(({className}) => this.usage.includes(className));
 
-    const dedupe = usedRules.filter((rule, i) => i === usedRules.indexOf(rule));
+    // group rules by media query
+    const grouped = filtered.reduce((map, {selector, media, cssText}) => {
+      // using a set to deduplicate rules within a given media query scope
+      if (!map.has(media)) map.set(media, new Set());
+      map.get(media).add(`${selector} {${cssText}}`);
+      return map;
+    }, new Map());
 
-    return dedupe.join('\n');
+    // turn the rule objects into valid css rules
+    return Array.from(grouped.entries())
+      .map(([media, rules]) => {
+        const cssText = [...rules.values()].join('\n');
+        return media ? media + '{\n' + cssText + '\n}' : cssText;
+      })
+      .join('\n');
   }
 };
