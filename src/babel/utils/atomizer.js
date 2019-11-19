@@ -9,14 +9,18 @@ const hyphenate = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase();
 
 const createRule = (className, key, value, children, media) => {
   const hyphenated = hyphenate(key);
-  const classSelector = '.' + className;
-  const selector = classSelector + (!children || COLON.test(children) ? '' : ' ') + children;
-  const cssText = hyphenated + ':' + value;
+  let cssText = hyphenated + ':' + value;
+  let selector = '.' + className;
+
+  if (children) {
+    selector += (COLON.test(children) ? '' : ' ') + children;
+  }
 
   return {
     key: media + children + hyphenated,
     selector: selector,
-    cssText: media ? media + '{' + cssText + '}' : cssText,
+    cssText: cssText,
+    media,
   };
 };
 
