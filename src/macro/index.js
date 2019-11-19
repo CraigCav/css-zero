@@ -1,6 +1,5 @@
 const {readFileSync, writeFileSync} = require('fs');
-const {dirname, basename, relative} = require('path');
-const mkdirp = require('mkdirp');
+const {basename, relative} = require('path');
 const {createMacro} = require('babel-plugin-macros');
 const {addSideEffect} = require('@babel/helper-module-imports');
 const TaggedTemplateExpression = require('../babel/visitors/TaggedTemplateExpression');
@@ -68,6 +67,5 @@ exports.createCssZeroMacro = () =>
     // if the files hasn't changed, nothing more to do
     if (currentCssText === cssText) return;
 
-    mkdirp.sync(dirname(outputFilename));
     writeFileSync(outputFilename, cssText);
   });
