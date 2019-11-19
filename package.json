@@ -50,6 +50,6 @@
     "babel-plugin-macros": "^2.6.2",
     "css": "^2.2.4",
     "fnv1a": "^1.0.1",
-    "stylis": "^2.0.12"
+    "stylis": "^3.5.4"
   }
 }
