@@ -23,6 +23,7 @@ it.each([
   ['pseudo.jsx'],
   ['media-query.jsx'],
   ['nested.jsx'],
+  ['ampersand.jsx'],
 ])('%s', file => {
   const {code, metadata} = transpile(`./fixtures/${file}`);
   expect(code).toMatchSnapshot();

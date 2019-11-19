@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ampersand.jsx 1`] = `"export const Component = () => <div className={\\"x1jz5mb xkgyerq xgoaa1y x1sytxyp x1p5ktpm xr140sx xz0xf9o\\"} />;"`;
+
+exports[`ampersand.jsx 2`] = `
+.x1jz5mb:hover {color:green}
+.xkgyerq:hover > span {color:yellow}
+span .xgoaa1y {color:orange}
+@media screen and (min-width:678px){
+.x1sytxyp {display:none}
+.x1p5ktpm:hover {color:gold}
+.xr140sx:hover > span {color:wheat}
+span .xz0xf9o {color:brown}
+}
+`;
+
 exports[`combining.jsx 1`] = `"export const Component = () => <div className={\\"x1dqz7z3 x1e4w2a9\\"} />;"`;
 
 exports[`combining.jsx 2`] = `

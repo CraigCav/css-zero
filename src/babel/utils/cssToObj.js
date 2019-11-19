@@ -4,7 +4,6 @@ const {parse} = require('css');
 const stylis = require('stylis');
 
 const SEL = '_';
-const SELRE = new RegExp('^' + SEL);
 
 const toObj = (css, opts) => {
   const wrapped = stylis(SEL, css);
@@ -23,11 +22,10 @@ const transform = opts => (rules, result = {}) => {
     }
 
     const [selector] = rule.selectors;
-    const key = selector.replace(SELRE, '').trim();
 
-    if (key.length) {
+    if (selector.length) {
       Object.assign(result, {
-        [key]: getDeclarations(rule.declarations, opts),
+        [selector]: getDeclarations(rule.declarations, opts),
       });
     } else {
       Object.assign(result, getDeclarations(rule.declarations, opts));

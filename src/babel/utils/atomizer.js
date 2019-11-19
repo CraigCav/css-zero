@@ -5,24 +5,18 @@ const cssToObj = require('./cssToObj');
 
 const AT_REG = /^@/;
 const AMP = /&/g;
-const COLON = /^:/;
 
 const id = seed => 'x' + fnv1a(seed).toString(36);
 const hyphenate = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase();
 
-const createRule = (className, key, value, children, media) => {
-  const hyphenated = hyphenate(key);
-  let cssText = hyphenated + ':' + value;
-  let selector = '.' + className;
-
-  if (children) {
-    selector += (COLON.test(children) ? '' : ' ') + children;
-  }
-
+const createRule = (propertyName, propertyValue, selector, children, media) => {
   return {
-    key: media + children + hyphenated,
-    selector: selector,
-    cssText: cssText,
+    // key is used for deduping styles.
+    // Using the property name alone isn't sufficient:
+    // pseudo elements and media queries can override the base style
+    key: media + children + propertyName,
+    selector,
+    cssText: propertyName + ':' + propertyValue,
     media,
   };
 };
@@ -44,9 +38,12 @@ const parse = (obj, children = '', media = '') => {
         continue;
       case 'number':
       case 'string':
-        const className = id(key + value + children + media);
-        const rule = createRule(className, key, value, children, media);
-        rules.push([className, rule]);
+        const hash = id(key + value + children.replace(/_ ?/, '') + media);
+        const parentSelector = '.' + hash;
+        const selector = children ? children.replace(/_/g, parentSelector) : parentSelector;
+        const name = hyphenate(key);
+        const rule = createRule(name, value, selector, children, media);
+        rules.push([hash, rule]);
     }
   }
 
