@@ -43,8 +43,6 @@
     "babel-jest": "^24.9.0",
     "babel-plugin-remove-unused-vars": "^2.2.0",
     "babel-plugin-tester": "^7.0.4",
-    "css-to-object": "^1.1.0",
-    "fnv1a": "^1.0.1",
     "jest": "^24.9.0"
   },
   "dependencies": {
