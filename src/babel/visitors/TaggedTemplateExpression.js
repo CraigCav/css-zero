@@ -1,4 +1,3 @@
-const css_to_object = require('css-to-object');
 const atomizer = require('../utils/atomizer');
 const hasImport = require('../utils/hasImport');
 
@@ -43,7 +42,7 @@ function TaggedTemplateExpression(path, state, types) {
     cssText += el.value.cooked;
   });
 
-  const rules = atomizer(css_to_object(cssText));
+  const rules = atomizer(cssText);
 
   rules.forEach(([className, {selector, cssText, media}]) => {
     state.styleSheet.addRule({

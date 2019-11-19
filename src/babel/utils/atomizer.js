@@ -1,4 +1,7 @@
+// Fork of https://github.com/jxnblk/object-style
+// which is MIT (c) jxnblk
 const fnv1a = require('fnv1a');
+const cssToObj = require('./cssToObj');
 
 const AT_REG = /^@/;
 const AMP = /&/g;
@@ -50,4 +53,4 @@ const parse = (obj, children = '', media = '') => {
   return rules;
 };
 
-module.exports = (obj = {}) => parse(obj);
+module.exports = css => parse(cssToObj(css));
