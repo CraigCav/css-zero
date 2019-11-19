@@ -29,11 +29,11 @@ exports[`conditional-with-dce.jsx 2`] = `
 `;
 
 exports[`media-query.jsx 1`] = `
-"export const Component = () => <div className={\\"x1dqz7z3 x1lrxh9v\\"} />;
-export const ComponentWithDuplicateMediaStyle = () => <div className={\\"x1ug2cuz xj95doo\\"} />;
-export const ComponentWithOverriddenMediaStyle = () => <div className={\\"x17bvl1g xkuztku\\"} />;
-export const ComponentWithNestedPseudo = () => <div className={\\"xfxv4bd x1oikiae\\"} />;
-export const ComponentWithParentPseudo = () => <div className={\\"xashdej x1dp08z\\"} />;"
+"export const Component = () => <div className={\\"x1dqz7z3 xr3sc1d\\"} />;
+export const ComponentWithDuplicateMediaStyle = () => <div className={\\"x1ug2cuz x1rt9ji8\\"} />;
+export const ComponentWithOverriddenMediaStyle = () => <div className={\\"x17bvl1g x1vx1kxu\\"} />;
+export const ComponentWithNestedPseudo = () => <div className={\\"xfxv4bd x1p5ktpm\\"} />;
+export const ComponentWithParentPseudo = () => <div className={\\"xashdej x4fean5\\"} />;"
 `;
 
 exports[`media-query.jsx 2`] = `
@@ -42,12 +42,12 @@ exports[`media-query.jsx 2`] = `
 .x17bvl1g {color:brown}
 .xfxv4bd {color:silver}
 .xashdej {color:wheat}
-@media screen and (min-width: 678px){
-.x1lrxh9v {color:green}
-.xj95doo {color:yellow}
-.xkuztku {color:salmon}
-.x1oikiae:hover {color:gold}
-.x1dp08z:hover {color:sandybrown}
+@media screen and (min-width:678px){
+.xr3sc1d {color:green}
+.x1rt9ji8 {color:yellow}
+.x1vx1kxu {color:salmon}
+.x1p5ktpm:hover {color:gold}
+.x4fean5:hover {color:sandybrown}
 }
 `;
 
@@ -55,15 +55,15 @@ exports[`merging.jsx 1`] = `"export const Component = () => <div className={\\"x
 
 exports[`merging.jsx 2`] = `.xp5623v {color:green}`;
 
-exports[`nested.jsx 1`] = `"export const Component = () => <div className={\\"x194k0cs x1c2oj3k x1pvsa1a xz7a8fm xt08vo6\\"} />;"`;
+exports[`nested.jsx 1`] = `"export const Component = () => <div className={\\"x194k0cs x1c2oj3k x1pvsa1a x14cvjxa xopjt0q\\"} />;"`;
 
 exports[`nested.jsx 2`] = `
 .x194k0cs h1 {font-size:32px}
 .x1c2oj3k section {font-size:16px}
 .x1pvsa1a section h1 {font-size:28px}
-@media screen and (min-width: 678px){
-.xz7a8fm section {font-size:18px}
-.xt08vo6 section h1 {font-size:42px}
+@media screen and (min-width:678px){
+.x14cvjxa section {font-size:18px}
+.xopjt0q section h1 {font-size:42px}
 }
 `;
 
