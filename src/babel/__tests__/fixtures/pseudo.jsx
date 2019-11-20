@@ -38,6 +38,13 @@ const implicit = css`
   }
 `;
 
+const pseudoElement = css`
+  &::before {
+    content: '';
+    position: relative;
+  }
+`;
+
 export const Component = () => <div className={styles(simple)} />;
 
 export const ComponentWithDuplicatePseudoStyle = () => <div className={styles(duplicate)} />;
@@ -45,3 +52,5 @@ export const ComponentWithDuplicatePseudoStyle = () => <div className={styles(du
 export const ComponentWithOverriddenPseudoStyle = () => <div className={styles(overridden)} />;
 
 export const ComponentWithImplicitPseudoStyle = () => <div className={styles(implicit)} />;
+
+export const ComponentWithPseudoElementStyle = () => <div className={styles(pseudoElement)} />;

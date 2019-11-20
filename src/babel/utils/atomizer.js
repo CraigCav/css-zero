@@ -2,6 +2,7 @@
 // which is MIT (c) jxnblk
 const fnv1a = require('fnv1a');
 const cssToObj = require('./cssToObj');
+const validate = require('./validate');
 
 const AT_REG = /^@/;
 const AMP = /&/g;
@@ -50,4 +51,8 @@ const parse = (obj, children = '', media = '') => {
   return rules;
 };
 
-module.exports = css => parse(cssToObj(css));
+module.exports = css => {
+  const obj = cssToObj(css);
+  validate(obj);
+  return parse(obj);
+};

@@ -59,7 +59,8 @@ exports[`pseudo.jsx 1`] = `
 "export const Component = () => <div className={\\"x1dqz7z3 x1jz5mb\\"} />;
 export const ComponentWithDuplicatePseudoStyle = () => <div className={\\"x1ug2cuz x17vggq8\\"} />;
 export const ComponentWithOverriddenPseudoStyle = () => <div className={\\"x17bvl1g xjhh7o6\\"} />;
-export const ComponentWithImplicitPseudoStyle = () => <div className={\\"xd095qv\\"} />;"
+export const ComponentWithImplicitPseudoStyle = () => <div className={\\"xd095qv\\"} />;
+export const ComponentWithPseudoElementStyle = () => <div className={\\"xwc7jr3 xaxzk95\\"} />;"
 `;
 
 exports[`pseudo.jsx 2`] = `
@@ -70,6 +71,8 @@ exports[`pseudo.jsx 2`] = `
 .x17bvl1g {color:brown}
 .xjhh7o6:hover {color:salmon}
 .xd095qv:hover {color:gray}
+.xwc7jr3::before {content:''}
+.xaxzk95::before {position:relative}
 `;
 
 exports[`simple.jsx 1`] = `"export const Component = () => <div className={\\"x1e4w2a9\\"} />;"`;
