@@ -58,7 +58,8 @@ exports[`merging.jsx 2`] = `.xp5623v {color:green}`;
 exports[`pseudo.jsx 1`] = `
 "export const Component = () => <div className={\\"x1dqz7z3 x1jz5mb\\"} />;
 export const ComponentWithDuplicatePseudoStyle = () => <div className={\\"x1ug2cuz x17vggq8\\"} />;
-export const ComponentWithOverriddenPseudoStyle = () => <div className={\\"x17bvl1g xjhh7o6\\"} />;"
+export const ComponentWithOverriddenPseudoStyle = () => <div className={\\"x17bvl1g xjhh7o6\\"} />;
+export const ComponentWithImplicitPseudoStyle = () => <div className={\\"xd095qv\\"} />;"
 `;
 
 exports[`pseudo.jsx 2`] = `
@@ -68,6 +69,7 @@ exports[`pseudo.jsx 2`] = `
 .x17vggq8:hover {color:yellow}
 .x17bvl1g {color:brown}
 .xjhh7o6:hover {color:salmon}
+.xd095qv:hover {color:gray}
 `;
 
 exports[`simple.jsx 1`] = `"export const Component = () => <div className={\\"x1e4w2a9\\"} />;"`;

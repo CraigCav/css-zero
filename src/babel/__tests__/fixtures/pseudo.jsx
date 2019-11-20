@@ -32,8 +32,16 @@ const overridden = css`
   }
 `;
 
+const implicit = css`
+  :hover {
+    color: gray;
+  }
+`;
+
 export const Component = () => <div className={styles(simple)} />;
 
 export const ComponentWithDuplicatePseudoStyle = () => <div className={styles(duplicate)} />;
 
 export const ComponentWithOverriddenPseudoStyle = () => <div className={styles(overridden)} />;
+
+export const ComponentWithImplicitPseudoStyle = () => <div className={styles(implicit)} />;
