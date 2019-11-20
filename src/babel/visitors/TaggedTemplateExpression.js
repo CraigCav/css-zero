@@ -1,5 +1,6 @@
 const atomizer = require('../utils/atomizer');
 const hasImport = require('../utils/hasImport');
+const evaluate = require('../utils/evaluate');
 
 function TaggedTemplateExpression(path, state, types) {
   const {quasi, tag} = path.node;
@@ -24,7 +25,6 @@ function TaggedTemplateExpression(path, state, types) {
 
   // Check if the variable is referenced anywhere for basic dead code elimination
   // Only works when it's assigned to a variable
-  // TODO: figure out if this is a better way to do this: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#check-if-an-identifier-is-referenced
   if (parent && types.isVariableDeclarator(parent)) {
     const {referencePaths} = path.scope.getBinding(parent.node.id.name);
 
@@ -37,9 +37,41 @@ function TaggedTemplateExpression(path, state, types) {
   // Serialize the tagged template literal to a string
   let cssText = '';
 
-  quasi.quasis.forEach(el => {
-    // TODO: interpolation of static values
+  const expressions = path.get('quasi').get('expressions');
+
+  quasi.quasis.forEach((el, i) => {
     cssText += el.value.cooked;
+
+    const ex = expressions[i];
+
+    if (!ex) return;
+
+    const result = ex.evaluate();
+
+    if (result.confident) {
+      throwIfInvalid(result.value, ex);
+
+      cssText += result.value;
+    } else {
+      // The value may be an imported variable, so try to preval the value
+      if (types.isFunctionExpression(ex) || types.isArrowFunctionExpression(ex)) return;
+
+      let evaluation;
+
+      try {
+        evaluation = evaluate(ex, types, state.file.opts.filename);
+      } catch (e) {
+        throw ex.buildCodeFrameError(
+          `An error occurred when evaluating the expression: ${e.message}. Make sure you are not using a browser or Node specific API.`
+        );
+      }
+
+      const {value} = evaluation;
+
+      throwIfInvalid(value, ex);
+
+      cssText += value;
+    }
   });
 
   const rules = atomizer(cssText);
@@ -60,6 +92,20 @@ function TaggedTemplateExpression(path, state, types) {
         types.objectProperty(types.stringLiteral(key), types.stringLiteral(className))
       )
     )
+  );
+}
+
+function throwIfInvalid(value, ex) {
+  if (typeof value === 'string' || (typeof value === 'number' && Number.isFinite(value))) {
+    return;
+  }
+
+  const stringified = typeof value === 'object' ? JSON.stringify(value) : String(value);
+
+  throw ex.buildCodeFrameError(
+    `The expression evaluated to '${stringified}', which is probably a mistake. If you want it to be inserted into CSS, explicitly cast or transform the value to a string, e.g. - 'String(${
+      generator(ex.node).code
+    })'.`
   );
 }
 

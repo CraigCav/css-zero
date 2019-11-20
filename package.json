@@ -46,7 +46,12 @@
     "jest": "^24.9.0"
   },
   "dependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/generator": "^7.7.2",
     "@babel/helper-module-imports": "^7.7.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.7.0",
     "babel-plugin-macros": "^2.6.2",
     "css": "^2.2.4",
     "fnv1a": "^1.0.1",

@@ -28,6 +28,20 @@ exports[`conditional-with-dce.jsx 2`] = `
 .x1e4w2a9 {font-size:16px}
 `;
 
+exports[`extraction.jsx 1`] = `
+"export const ComponentStatic = () => <div className={\\"x1yl4wq1\\"} />;
+export const ComponentStaticInline = () => <div className={\\"x1dk9diw\\"} />;
+export const ComponentConstant = () => <div className={\\"xfehp64\\"} />;
+export const ComponentConstantImported = () => <div className={\\"x2c67um\\"} />;"
+`;
+
+exports[`extraction.jsx 2`] = `
+.x1yl4wq1 {margin-bottom:2px}
+.xfehp64 {margin-top:10px}
+.x2c67um {margin-bottom:12px}
+.x1dk9diw {margin-bottom:1px}
+`;
+
 exports[`media-query.jsx 1`] = `
 "export const Component = () => <div className={\\"x1dqz7z3 xr3sc1d\\"} />;
 export const ComponentWithDuplicateMediaStyle = () => <div className={\\"x1ug2cuz x1rt9ji8\\"} />;
