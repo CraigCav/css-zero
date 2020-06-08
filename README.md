@@ -25,15 +25,19 @@ These benefits are in addition to the more general benefits of using CSS-in-JS:
 Since CSS-Zero has no runtime, it can be installed purely as a devDependency:
 
 ```
-npm install css-zero --save-dev
+npm install --save-dev css-zero 
 ```
+or
 
+```
+yarn add --dev css-zero
+```
 ## Setup
 
 The simplest way to run CSS-Zero in a React application is using our Babel Macro:
 
 ```jsx
-import {css, styled} from 'css-zero/macro';
+import {css, styles} from 'css-zero/macro';
 ```
 
 For applications created using Create React App (which supports both Babel Macros and CSS Modules out-of-the-box), no further setup or configuration is needed.
